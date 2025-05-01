@@ -1,84 +1,54 @@
-import utils, ewc
-from utils import *
-from ewc import *
 import tensorflow as tf
+import pandas as pd
+import numpy as np
 from tensorflow.keras.losses import CategoricalCrossentropy
 
-
-def train_loop(model, OPTIMIZER, MAX_LABEL, data, test_size,
-                first_task = 44, inc_task = 5, first_epochs = 30, inc_epochs = 5,
-                  lamb=0, num_sample=100):
+def compute_ewc_penalty(model, fisher_matrix, optimal_weights, lamb):   
+    loss = 0
+    current = model.trainable_weights 
     
-    first_part = split_by_label(data, 0, first_task)
-    train, test = split_train_test(first_part, test_size=test_size, random_state=11)
+    for F, c, o in zip(fisher_matrix, current, optimal_weights):
+        o = tf.convert_to_tensor(o, dtype=c.dtype)
+        loss += tf.reduce_sum(F * ((c - o) ** 2))
+
+
+    return loss * (lamb / 2)
+
+def ewc_loss(model, fisher_matrix, lamb, optimal_weights):
+    optimal_weights = optimal_weights
+    
+    def loss_fn(y_true, y_pred):
+
+        ce_loss = CategoricalCrossentropy(from_logits=False)(y_true, y_pred)
+        ewc_loss = compute_ewc_penalty(model, fisher_matrix, optimal_weights, lamb=lamb)
+
+        return ce_loss + ewc_loss
+    
+    return loss_fn
+
+def compute_fisher_matrix(model, data, num_sample=10, epsilon=1e-4):
+    epsilon = epsilon
     
     weights = model.trainable_weights
-    fisher_matrix = [tf.zeros_like(w) for w in weights]
+    variance = [tf.zeros_like(tensor) for tensor in weights]
 
+    indices = np.random.choice(len(data), size=num_sample, replace=False)
 
-    i = 0
-    while(1):
+    for i in indices:
 
-        if ( first_task + i * inc_task ) <= MAX_LABEL:
-            
-            if i == 0:
-                model.compile(loss=CategoricalCrossentropy(from_logits=False), optimizer=OPTIMIZER, metrics=["accuracy"])
-                train_seq, train_label = to_input(train, MAX_LABEL)
+        with tf.GradientTape() as tape:
+            tape.watch(weights)
+            x = tf.expand_dims(data[i], axis=0)
+            output = model(x, training=False) 
+            output = tf.clip_by_value(output, epsilon, 1.0)
+            log_likelihood = - tf.math.log(output)
 
-                model.fit(x=train_seq, y=train_label, epochs=first_epochs, verbose=2)
-                optimal_weights = [w.numpy() for w in model.trainable_weights]
-
-                test_seq, test_label = to_input(test, MAX_LABEL)
-                loss, accuracy = model.evaluate(test_seq, test_label, batch_size=32, verbose=1)
-                print(f"Task_0 training accuracy: {accuracy:.4f}")
-
-
-                if len(train_seq) < num_sample:
-                    fisher_matrix = compute_fisher_matrix(model, train_seq, num_sample=len(train_seq))
-                else:
-                    fisher_matrix = compute_fisher_matrix(model, train_seq, num_sample=num_sample)
-
-                i = i + 1
+        gradients = tape.gradient(log_likelihood, weights)
+        for j in range(len(variance)):
                 
+            if gradients[j] is not None:
+                variance[j] += tf.square(gradients[j])
 
-            else:
+        fisher_matrix = [v / num_sample for v in variance]   
 
-                # training
-                model.compile(loss=ewc_loss(model, fisher_matrix, lamb=lamb, optimal_weights=optimal_weights), optimizer=OPTIMIZER, metrics=["accuracy"])
-
-                inc_part = split_by_label(data, first_task + (i-1) * inc_task + 1, first_task + i * inc_task )
-                train, inc_test = split_train_test(inc_part, test_size=test_size, random_state=11)
-                train_seq, train_label = to_input(train, MAX_LABEL)
-
-                model.fit(x=train_seq, y=train_label, epochs=inc_epochs, verbose=2)
-                optimal_weights = [w.numpy() for w in model.trainable_weights]
-
-                # evaluation
-                inc_test_seq, inc_test_label = to_input(inc_test, MAX_LABEL)
-                loss, inc_accuracy = model.evaluate(inc_test_seq, inc_test_label, batch_size=32, verbose=1)
-
-                print(f"Task_{i} accuracy: {inc_accuracy:.4f}")
-
-                # update test datset
-                test_seq, test_label = to_input(test, MAX_LABEL)
-
-                loss, accuracy = model.evaluate(test_seq, test_label, batch_size=32, verbose=1)
-                print(f"Task ~{i-1} accuracy after training on Task_{i}: {accuracy:.4f}")
-                
-                test = accumulate_data(test, inc_test)
-
-                # calculate fi
-                if len(train_seq) < num_sample:
-                    fisher_matrix = compute_fisher_matrix(model, train_seq, num_sample=len(train_seq))
-                else:
-                    fisher_matrix = compute_fisher_matrix(model, train_seq, num_sample=num_sample)
-
-                i = i + 1
-            
-
-        else:
-            break 
-    
-    test_seq, test_label = to_input(test, MAX_LABEL)
-    loss, accuracy = model.evaluate(test_seq, test_label, batch_size=32, verbose=1)
-    print(f"Accuracy after incremental training: {accuracy:.4f}")
+    return fisher_matrix
