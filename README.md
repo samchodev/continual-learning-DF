@@ -28,16 +28,17 @@
 아래 명령어를 사용해 프로젝트와 동일한 Python 환경을 구성할 수 있습니다.
 
 ```bash
-# 1. 가상환경 생성 (예: nAIvis)
+conda create -n nAIvis python=3.7.7
+conda activate nAIvis
+pip install -r requirements.txt
+```
+
+```bash
+# Python 3.7.7 기준
 python -m venv nAIvis
+nAIvis\Scripts\activate           # Windows
+source nAIvis/bin/activate       # macOS/Linux
 
-# 2. 가상환경 활성화
-# Windows
-nAIvis\Scripts\activate
-# macOS/Linux
-source nAIvis/bin/activate
-
-# 3. 필요한 패키지 설치
 pip install -r requirements.txt
 ```
 
