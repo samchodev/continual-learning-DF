@@ -9,7 +9,7 @@
 
 ---
 
-## ⚠📌 NVIDIA GPU 및 CUDA 사용 시 주의사항
+## 📌 NVIDIA GPU 및 CUDA 사용 시 주의사항
 
 - 이 프로젝트는 GPU 가속을 위해 `tensorflow-gpu==2.10.0`을 사용합니다.
 - GPU 사용을 위해 아래 시스템 구성 필요:
@@ -23,7 +23,7 @@
 - CUDA 및 cuDNN 설치 방법: [TensorFlow 공식 가이드](https://www.tensorflow.org/install/gpu)
 
 
-## 🛠📌 가상환경 설정 방법 (Python venv 기준)
+## 📌 가상환경 설정 방법 (Python venv 기준)
 
 아래 명령어를 사용해 프로젝트와 동일한 Python 환경을 구성할 수 있습니다.
 
