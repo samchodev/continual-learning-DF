@@ -42,6 +42,11 @@ source nAIvis/bin/activate       # macOS/Linux
 pip install -r requirements.txt
 ```
 
+## 📌 GitHub 저장소 클론
+```bash
+git clone https://github.com/hineugene/continual-learning-DF.git
+cd continual-learning-DF
+```
 
 ## 🚀 실행 예시
 
