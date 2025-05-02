@@ -80,7 +80,6 @@ python main.py --first_task 69 --inc_task 25 --first_epochs 70 --inc_epochs 20 -
 
 > 💡 **EWC 적용 시**, 기존 Task 성능이 크게 저하되지 않으며, 기존 지식을 효과적으로 보존함을 확인하였습니다.
 
----
 
 ### ✅ 파라미터 조정 실험 결과
 
@@ -95,7 +94,6 @@ python main.py --first_task 69 --inc_task 25 --first_epochs 70 --inc_epochs 20 -
 
 > λ가 커질수록 기존 Task(T1)의 정확도는 유지되지만, 새로운 Task(T2) 학습 성능은 하락함 → **하이퍼파라미터 튜닝 필요**
 
----
 
 2️⃣ 클래스 비율 (Task1 : Task2)에 따른 성능 변화
 
@@ -107,7 +105,6 @@ python main.py --first_task 69 --inc_task 25 --first_epochs 70 --inc_epochs 20 -
 
 > 초기 Task에 더 많은 클래스를 포함할수록 기존 지식 보존 효과가 커짐
 
----
 
 3️⃣ ⏱ 에폭 비율 (Task1 : Task2)에 따른 성능 변화
 
@@ -119,7 +116,6 @@ python main.py --first_task 69 --inc_task 25 --first_epochs 70 --inc_epochs 20 -
 
 > Task 1에 더 많은 학습 비중(epoch)을 할당하면 **망각 현상 완화**, T2 성능도 안정적으로 유지됨
 
----
 
 ## 📌 결과 요약
 
@@ -137,4 +133,4 @@ python main.py --first_task 69 --inc_task 25 --first_epochs 70 --inc_epochs 20 -
 - WF 모델과 Tor 네트워크 방어 기법 간의 **대응 전략 연구** (적대적 학습, 방어 모델 통합 등)
 - 실시간 트래픽 분류나 온라인 러닝 구조로 확장하여 **운영 가능한 프라이버시 공격 시스템 구현**
 
-> 🧠 본 연구는 변화하는 환경 속에서도 안정적으로 동작할 수 있는 웹사이트 핑거프린팅 모델의 가능성을 제시하며, 향후 Tor 기반 보안/공격 연구에 기초 자료로 활용될 수 있다.
+즉, 본 연구는 변화하는 환경 속에서도 안정적으로 동작할 수 있는 웹사이트 핑거프린팅 모델의 가능성을 제시하며, 향후 Tor 기반 보안/공격 연구에 기초 자료로 활용될 수 있다.
