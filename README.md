@@ -21,6 +21,17 @@
 
 ---
 
+## 📂 데이터셋 구성
+
+본 프로젝트에 사용된 데이터셋은 Mathews et al.의 SoK 논문에서 제안된 "Monitored Set"을 기반으로 수집된 웹사이트 트래픽을 활용하였으며, 해당 데이터의 구축 과정 및 특성은 다음 논문에 자세히 기술되어 있다:
+
+> N. Mathews et al., “SoK: A Critical Evaluation of Efficient Website Fingerprinting Defenses,” *In Proceedings of the 2023 IEEE Symposium on Security and Privacy (SP)*, pp. 969–986, May 2023.
+
+본 repository에 업로드한 데이터셋은 해당 원본 데이터를 기반으로 가공한 형태로, 각 `Direction_Sequence`는 길이 10,000으로 전처리된 상태이다.  
+이 데이터는 실험 재현성을 고려하여 정규화 및 포맷 통일 과정을 거친 결과물입니다.
+
+---
+
 ## 📌 NVIDIA GPU 및 CUDA 사용 시 주의사항
 
 - 이 프로젝트는 GPU 가속을 위해 `tensorflow-gpu==2.10.0`을 사용합니다.
@@ -122,7 +133,7 @@ python main.py --first_task 69 --inc_task 25 --first_epochs 70 --inc_epochs 20 -
 - EWC 기반 Continual Learning은 기존 WF 모델이 겪는 **Catastrophic Forgetting 문제를 효과적으로 완화**함
 - Task 2 학습 이후에도 기존 웹사이트(Task 1)의 식별 정확도를 **평균 40% 이상 유지**
 - λ(lambda), 클래스 비율, 에폭 비율 등 **하이퍼파라미터 조정이 성능 유지에 중요한 역할**을 함
-- 모든 데이터를 한 번에 학습하는 Joint 방식보다 현실성은 낮지만, **실제 적용 가능한 전략으로서 유의미한 성능 확보
+- 모든 데이터를 한 번에 학습하는 Joint 방식보다 현실성은 낮지만, **실제 적용 가능한 전략으로서 유의미한 성능을 확보**
 
 ---
 
