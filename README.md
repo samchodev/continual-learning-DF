@@ -28,7 +28,7 @@
 > N. Mathews et al., “SoK: A Critical Evaluation of Efficient Website Fingerprinting Defenses,” *In Proceedings of the 2023 IEEE Symposium on Security and Privacy (SP)*, pp. 969–986, May 2023.
 
 본 repository에 업로드한 데이터셋은 해당 원본 데이터를 기반으로 가공한 형태로, 각 `Direction_Sequence`는 길이 10,000으로 전처리된 상태이다.  
-이 데이터는 실험 재현성을 고려하여 정규화 및 포맷 통일 과정을 거친 결과물입니다.
+이 데이터는 실험 재현성을 고려하여 정규화 및 포맷 통일 과정을 거친 결과물이다.
 
 ---
 
