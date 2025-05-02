@@ -17,12 +17,12 @@ def train_loop(model, OPTIMIZER, MAX_LABEL, data, test_size,
     fisher_matrix = [tf.zeros_like(w) for w in weights]
 
 
-    i = 0
+    i = 1
     while(1):
 
         if ( first_task + i * inc_task ) <= MAX_LABEL:
             
-            if i == 0:
+            if i == 1:
                 model.compile(loss=CategoricalCrossentropy(from_logits=False), optimizer=OPTIMIZER, metrics=["accuracy"])
                 train_seq, train_label = to_input(train, MAX_LABEL)
 
@@ -47,7 +47,7 @@ def train_loop(model, OPTIMIZER, MAX_LABEL, data, test_size,
                 # training
                 model.compile(loss=ewc_loss(model, fisher_matrix, lamb=lamb, optimal_weights=optimal_weights), optimizer=OPTIMIZER, metrics=["accuracy"])
 
-                inc_part = split_by_label(data, first_task + (i-1) * inc_task + 1, first_task + i * inc_task )
+                inc_part = split_by_label(data, first_task + (i-2) * inc_task + 1, first_task + (i-1) * inc_task )
                 train, inc_test = split_train_test(inc_part, test_size=test_size, random_state=11)
                 train_seq, train_label = to_input(train, MAX_LABEL)
 
