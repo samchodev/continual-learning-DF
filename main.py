@@ -6,7 +6,7 @@ from tensorflow.keras.optimizers.legacy import Adam
 
 if __name__ == "__main__":
 
-    data = pd.read_pickle('mon_data.pkl')
+    data = pd.read_pickle('datasets/mon_data.pkl')
     print("data shape :", data.shape)
     MAX_LABEL = 95
 
