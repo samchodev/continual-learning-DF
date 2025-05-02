@@ -1,4 +1,4 @@
-# Continual Learning for Deep Fingerprinting
+# Continual Learning-Based Website Fingerprinting on Tor
 
 본 프로젝트는 Deep Fingerprinting(DFNet)에 Continual Learning (특히 EWC: Elastic Weight Consolidation)을 적용하여 Catastrophic Forgetting을 완화하는 실험을 다룹니다.
 
