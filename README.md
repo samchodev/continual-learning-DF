@@ -1,3 +1,5 @@
+# This repository is a fork of [hineugene/continual-learning-DF](https://github.com/hineugene/continual-learning-DF).
+
 # Continual Learning-Based Website Fingerprinting on Tor
 
 본 프로젝트는 Tor 네트워크의 익명성을 위협하는 웹사이트 핑거프린팅(Website Fingerprinting, WF) 공격에 대응하기 위해, Deep Fingerprinting (DFNet) 모델에 평생학습(Continual Learning) 기법 중 하나인 Elastic Weight Consolidation (EWC)를 적용하여 치명적 망각(Catastrophic Forgetting) 문제를 완화하는 방법을 제안한다.
